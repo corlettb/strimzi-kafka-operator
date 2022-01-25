@@ -61,8 +61,9 @@ class TopicName {
      */
     public ResourceName asKubeName() {
         ResourceName mname;
+        String prefix = System.getProperty("strimzi.topicoperator.prefix", "");
         if (ResourceName.isValidResourceName(this.name)) {
-            mname = new ResourceName(this.name);
+            mname = new ResourceName(prefix + this.name);
         } else {
             StringBuilder n = new StringBuilder();
             for (int i = 0; i < this.name.length(); i++) {
@@ -120,7 +121,7 @@ class TopicName {
                 n.append(SEP);
             }
             n.append(new BigInteger(1, sha1sum).toString(16));
-            mname = new ResourceName(n.toString());
+            mname = new ResourceName(prefix + n.toString());
         }
         return mname;
     }
